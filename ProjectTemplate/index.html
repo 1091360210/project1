@@ -6,8 +6,11 @@
 	<!--DO NOT FORGET THIS SCRIPT TAG SO YOU CAN USE JQUERY!!!!!-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-	<!--YOUR OWN JAVASCRIPT CAN GO RIGHT HERE-->
 	<script type="text/javascript">
+        var contentPanels = ['logonPanel', 'homePanel'];
+        var testName = "test";
+        var testPass = "test";
+
 		function TestButtonHandler() {
 			var webMethod = "ProjectServices.asmx/TestConnection";
 			var parameters = "{}";
@@ -27,17 +30,90 @@
 					alert("this code will only execute if javascript is unable to access the webservice");
 				}
 			});
-		}
-	</script>
-	<!--END OF YOUR OWN JAVASCRIPT-->
+        }
 
-	<!--AND YOUR OWN CSS CAN GO HERE AS WELL-->
+        // This function will be used when using database credentials
+        function LogOn(username, pass) {
+            var webMethod = "ProjectServices.asmx/LogOn";
+            var parameters = "{\"uid\":\"" + encodeURI(username) + "\",\"pass\":\"" + encodeURI(pass) + "\"}";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+
+                }
+            })
+        }
+
+        function showPanel(panelId) {
+            for (var i = 0; i < contentPanels.length; i++) {
+                if (panelId == contentPanels[i]) {
+                    $("#" + contentPanels[i].css('visibility', 'visible'));
+                }
+                else {
+                    $("#" + contentPanels[i].css('visibility', 'hidden'));
+                }
+            }
+        }
+
+        function LogIn() {
+            var user = document.getElementById("logonId").value;
+            var pass = document.getElementById("logonPassword").value;
+
+            if (user == testName && pass == testPass) {
+                showPanel("homePanel");
+            }
+            else {
+                alert("INCORRECT PASSWORD");
+            }
+        }
+
+	</script>
+
 	<style>
+        #homePanel{
+            visibility: hidden;
+        }
 
 	</style>
-	<!--END OF YOUR OWN CSS-->
+
 </head >
 <body>
+    <div class="titleContainer"></div>
+    
+    <div class="contentContainer">
+        <div id="logonPanel" class="contentPanel logonPanel">
+            <div class="logonBox">
+
+                <!--
+                    THIS CODE IS FOR WHEN WE USE ACTUAL DATABASE CREDENTIALS   
+                    onsubmit="LogOn($('#logonId').val(), $('#logonPassword').val()); return false;
+                 -->
+                <form>
+                    <hr />
+                    <div>
+                        Username: <input type="text" id="logonId" />
+                    </div>
+                    <div>
+                        Password: <input type="text" id="logonPassword" />
+                    </div>
+                    <hr />
+                    <div>
+                        <button onclick="LogIn();">Log In</button>
+                    </div>
+                </form>
+                <button>Sign Up</button>
+            </div>
+        </div>
+        <div id="homePanel">
+            <h1>Logged In!</h1>
+        </div>
+    </div>
+
 	<button onclick="javascript: TestButtonHandler();">Click here to test connection!</button>
 </body>
 </html >
