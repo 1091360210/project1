@@ -44,9 +44,19 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (msg) {
-
+                    var responseFromServer = msg.d;
+                    if (responseFromServer == true) {
+                        alert("Logged In");
+                    }
+                    else {
+                        alert("Incorrect Credentials");
+                    }
+                },
+                error: function () {
+                    alert("Error");
                 }
             })
+
         }
 
         function showPanel(panelId) {
@@ -60,24 +70,22 @@
             }
         }
 
-        function LogIn() {
-            var user = document.getElementById("logonId").value;
-            var pass = document.getElementById("logonPassword").value;
-
-            if (user == testName && pass == testPass) {
-                showPanel("homePanel");
-            }
-            else {
-                alert("INCORRECT PASSWORD");
-            }
-        }
-
 	</script>
 
 	<style>
         #homePanel{
             visibility: hidden;
         }
+
+        .logonBox {
+            text-align: center;
+        }
+
+        button {
+            width: 100px;
+            margin: 5px;
+        }
+
 
 	</style>
 
@@ -88,25 +96,21 @@
     <div class="contentContainer">
         <div id="logonPanel" class="contentPanel logonPanel">
             <div class="logonBox">
-
-                <!--
-                    THIS CODE IS FOR WHEN WE USE ACTUAL DATABASE CREDENTIALS   
-                    onsubmit="LogOn($('#logonId').val(), $('#logonPassword').val()); return false;
-                 -->
-                <form>
-                    <hr />
-                    <div>
-                        Username: <input type="text" id="logonId" />
-                    </div>
-                    <div>
-                        Password: <input type="text" id="logonPassword" />
-                    </div>
-                    <hr />
-                    <div>
-                        <button onclick="LogIn();">Log In</button>
-                    </div>
-                </form>
-                <button>Sign Up</button>
+                <h1>Sign in!</h1>
+                <hr />
+                <div class="entryInfo">
+                    <div>Username: </div>
+                    <div><input type="text" id="logonId" /></div>
+                </div>
+                <div class="entryInfo">
+                    <div>Password: </div>
+                    <div><input type="password" id="logonPassword" /></div>
+                </div>
+                <hr />
+                <div>
+                    <button onclick="LogOn(document.getElementById('logonId').value, document.getElementById('logonPassword').value);">Log In</button>
+                </div>
+                <button onclick="LogOn(document.getElementById('logonId').value, document.getElementById('logonPassword').value);">Sign Up</button>
             </div>
         </div>
         <div id="homePanel">
@@ -114,6 +118,6 @@
         </div>
     </div>
 
-	<button onclick="javascript: TestButtonHandler();">Click here to test connection!</button>
+	<!--<button onclick="javascript: TestButtonHandler();">Click here to test connection!</button> -->
 </body>
 </html >

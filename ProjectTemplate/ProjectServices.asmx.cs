@@ -69,28 +69,17 @@ namespace ProjectTemplate
         [WebMethod]
         public bool LogOn(string uid, string pass)
         {
-            //LOGIC: pass the parameters into the database to see if an account
-            //with these credentials exist.  If it does, then return true.  If
-            //it doesn't, then return false
 
-            //we return this flag to tell them if they logged in or not
             bool success = false;
 
-            //our connection string comes from our web.config file like we talked about earlier
-            string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
-            //here's our query.  A basic select with nothing fancy.  Note the parameters that begin with @
-            string sqlSelect = "SELECT id FROM accounts WHERE userid=@idValue and pass=@passValue";
+            string sqlSelect = "SELECT UserName, Password FROM Users WHERE UserName = '" + uid + "' AND Password = '" + pass + "'";
 
-            //set up our connection object to be ready to use our connection string
-            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
-            //set up our command object to use our connection, and our query
-            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+            MySqlConnection con = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
 
             //tell our command to replace the @parameters with real values
             //we decode them because they came to us via the web so they were encoded
             //for transmission (funky characters escaped, mostly)
-            sqlCommand.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(uid));
-            sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(pass));
 
             //a data adapter acts like a bridge between our command object and 
             //the data we are trying to get back and put in a table object
