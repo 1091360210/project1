@@ -34,21 +34,84 @@
 
 
     </script>
+
+    <style>
+
+        html, body {
+            font-family:'Century Gothic';
+            height: 100%;
+        }
+
+        .contentContainer {
+            background-color: lightgrey;
+            width: 300px;
+            border: 5px solid maroon;
+            padding: 50px;
+            margin: auto;
+            text-align:center;
+
+        }
+
+        h1 {
+            text-align:center;
+        }
+
+        #firstName, #lastName, #email, #logonId, #logonPassword {
+           text-align: left;
+           float: right;
+       }
+
+        button {
+            width: 100px;
+            margin: 5px;
+        }
+
+    </style>
+
 </head>
 <body>
-    <div>First Name: </div>
-    <div><input type="text" id="firstName" /></div>
-    <div>Last Name: </div>
-    <div><input type="text" id="lastName" /></div>
-    <div>Username: </div>
-    <div><input type="text" id="logonId" /></div>
-    <div>Password: </div>
-    <div><input type="text" id="logonPassword" /></div>
-    <div>Email: </div>
-    <div><input type="text" id="email" /></div>
+    <div class="titleContainer"></div>
+    <div class="contentContainer">
+    
 
-    <div>
-        <button onclick="rAccount(document.getElementById('firstName').value, document.getElementById('lastName').value,document.getElementById('email').value,document.getElementById('logonId').value,document.getElementById('logonPassword').value)">Register</button>
+        <h1>Create an Account!</h1>
+        <hr />
+        
+        <div>
+            First Name: <input type="text" id="firstName">
+        </div>
+        <p></p>
+
+        <div>
+            Last Name: <input type="text" id="lastName">
+        </div>
+        <p></p>
+
+        <div>
+            Username: <input type="text" id="logonId">
+        </div>
+        <p></p>
+
+        <div>
+            Password: <input type="text" id="logonPassword">
+        </div>
+        <p></p>
+
+        <div>
+            Email: <input type="text" id="email">
+        </div>
+        <p></p>
+
+        <hr />
+
+        <div>
+            <button onclick="rAccount(document.getElementById('firstName').value,
+                document.getElementById('lastName').value, 
+                document.getElementById('email').value,
+                document.getElementById('logonId').value,
+                document.getElementById('logonPassword').value)">Register
+            </button>
+        </div>
     </div>
 </body>
 </html>
