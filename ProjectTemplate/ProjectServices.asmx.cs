@@ -22,11 +22,10 @@ namespace ProjectTemplate
         private string dbID = "group5-2";
         private string dbPass = "!!Group5";
         private string dbName = "group5-2";
-        ////////////////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////////////////
+        public string sessionUsername = "";
+
         ///call this method anywhere that you need the connection string!
-        ////////////////////////////////////////////////////////////////////////
         private string getConString()
         {
             return "SERVER=107.180.1.16; PORT=3306; DATABASE=" + dbName + "; UID=" + dbID + "; PASSWORD=" + dbPass;
@@ -95,6 +94,7 @@ namespace ProjectTemplate
             {
                 //flip our flag to true so we return a value that lets them know they're logged in
                 success = true;
+                sessionUsername = uid;
             }
             //return the result!
             return success;
@@ -150,6 +150,28 @@ namespace ProjectTemplate
             //return the result!
             return success;
         }
+
+        [WebMethod]
+        public bool CreateEvent(string title, string description, string eventDate, string createDate, string uid)
+        {
+            bool success = false;
+
+
+            string sqlInsert = "INSERT INTO Events(`EID`,`EventTitle`,`EventDescription`,`EventDate`,`CreationDate`,`UID`) Values(default,'" + title + "','"
+                + description + "','" + eventDate + "','" + createDate + " ','" + uid + "')";
+
+            MySqlConnection con2 = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand2 = new MySqlCommand(sqlInsert, con2);
+            //a data adapter acts like a bridge between our command object and 
+            //the data we are trying to get back and put in a table object
+            con2.Open();
+            sqlCommand2.ExecuteNonQuery();
+            con2.Close();
+            success = true;
+
+            return success;
+        }
+
     }
 }
             

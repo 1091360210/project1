@@ -10,7 +10,6 @@
             var webMethod = "ProjectServices.asmx/NAccount";
             var parameters = "{\"fName\":\"" + encodeURI(fName) + "\",\"lName\":\"" + encodeURI(lName)+
             "\",\"email\":\"" + encodeURI(email) + "\",\"uName\":\"" + encodeURI(uName) + "\",\"pwd\":\"" + encodeURI(pwd) + "\"}";
-            alert(parameters);
             $.ajax({
                 type: "POST",
                 url: webMethod,
@@ -21,6 +20,7 @@
                     var responseFromServer = msg.d;
                     if (responseFromServer == true) {
                         alert("Created Account");
+                        window.open("index.html", "_self");
                     }
                     else {
                         alert("Duplicated information, please try again.");

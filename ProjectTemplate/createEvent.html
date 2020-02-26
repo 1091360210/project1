@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <!--DO NOT FORGET THIS SCRIPT TAG SO YOU CAN USE JQUERY!!!!!-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var contentPanels = ['logonPanel', 'homePanel'];
+        var testName = "test";
+        var testPass = "test";
+
+        today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+
+        var currentDate = yyyy + "-" + mm + "-" + dd;
+        var testUID = 14;
+
+
+
+        function showPanel(panelId) {
+            for (var i = 0; i < contentPanels.length; i++) {
+                if (panelId == contentPanels[i]) {
+                    $("#" + contentPanels[i].css('visibility', 'visible'));
+                }
+                else {
+                    $("#" + contentPanels[i].css('visibility', 'hidden'));
+                }
+            }
+        }
+
+
+        function crtEvent(title, description, eventDate, createDate, uid) {
+            var webMethod = "ProjectServices.asmx/CreateEvent";
+            var parameters = "{\"title\":\"" + encodeURI(title) + "\",\"description\":\"" + encodeURI(description) +
+                "\",\"eventDate\":\"" + encodeURI(eventDate) + "\",\"createDate\":\"" + encodeURI(createDate) +
+                "\",\"uid\":\"" + encodeURI(uid) + "\"}";
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    var responseFromServer = msg.d;
+                    if (responseFromServer == true) {
+                        alert("Event Created");
+                        window.open("home.html", "_self");
+                    }
+                    else {
+                        alert("Creation Failed.");
+                    }
+                },
+                error: function () {
+                    alert("Error");
+                }
+            })
+        }
+
+    </script>
+
+    <style>
+        #homePanel {
+            visibility: hidden;
+        }
+
+        .logonBox {
+            text-align: center;
+        }
+
+        button {
+            width: 100px;
+            margin: 5px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="titleContainer"></div>
+
+    <div class="contentContainer">
+        <div id="logonPanel" class="contentPanel logonPanel">
+            <div class="logonBox">
+                <h1>Create Event!</h1>
+                <hr />
+                <div class="entryInfo">
+                    <div>Event Title: </div>
+                    <div><input type="text" id="eventTitle" /></div>
+                </div>
+                <div class="entryInfo">
+                    <div>Event Description: </div>
+                    <div><input type="text" id="eventDesc" /></div>
+                </div>
+                <div class="entryInfo">
+                    <div>Event Date: </div>
+                    <div><input type="date" id="eventDate" /></div>
+                </div>
+                <hr />
+                <div>
+                    <button onclick="crtEvent(document.getElementById('eventTitle').value, document.getElementById('eventDesc').value, document.getElementById('eventDate').value, currentDate, testUID);">Create Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

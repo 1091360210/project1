@@ -5,72 +5,7 @@
 	<title></title>
 	<!--DO NOT FORGET THIS SCRIPT TAG SO YOU CAN USE JQUERY!!!!!-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<script type="text/javascript">
-        var contentPanels = ['logonPanel', 'homePanel'];
-        var testName = "test";
-        var testPass = "test";
-
-		function TestButtonHandler() {
-			var webMethod = "ProjectServices.asmx/TestConnection";
-			var parameters = "{}";
-
-			//jQuery ajax method
-			$.ajax({
-				type: "POST",
-				url: webMethod,
-				data: parameters,
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function (msg) {
-					var responseFromServer = msg.d;
-					alert(responseFromServer);
-				},
-				error: function (e) {
-					alert("this code will only execute if javascript is unable to access the webservice");
-				}
-			});
-        }
-
-        // This function will be used when using database credentials
-        function LogOn(username, pass) {
-            var webMethod = "ProjectServices.asmx/LogOn";
-            var parameters = "{\"uid\":\"" + encodeURI(username) + "\",\"pass\":\"" + encodeURI(pass) + "\"}";
-
-            $.ajax({
-                type: "POST",
-                url: webMethod,
-                data: parameters,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (msg) {
-                    var responseFromServer = msg.d;
-                    if (responseFromServer == true) {
-                        alert("Logged In");
-                    }
-                    else {
-                        alert("Incorrect Credentials");
-                    }
-                },
-                error: function () {
-                    alert("Error");
-                }
-            })
-
-        }
-
-        function showPanel(panelId) {
-            for (var i = 0; i < contentPanels.length; i++) {
-                if (panelId == contentPanels[i]) {
-                    $("#" + contentPanels[i].css('visibility', 'visible'));
-                }
-                else {
-                    $("#" + contentPanels[i].css('visibility', 'hidden'));
-                }
-            }
-        }
-
-	</script>
+    <script src="script.js"></script>
 
 	<style>
         #homePanel{
@@ -115,8 +50,9 @@
             margin: auto;
         }
 
-        
-
+        #error {
+            color:red;
+        }
 
 	</style>
 
@@ -142,6 +78,7 @@
                     document.getElementById('logonPassword').value);">Log In</button>
                 </div>
                 <a href="register.html">Create an Account</a>
+                <div id="error"></div>
             </div>
             
         </div>
@@ -150,6 +87,5 @@
         </div>
     </div>
 
-	<!--<button onclick="javascript: TestButtonHandler();">Click here to test connection!</button> -->
 </body>
 </html >
