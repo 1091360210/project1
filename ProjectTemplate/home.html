@@ -16,11 +16,18 @@
 
 </head>
 
-<body onload="test();">
+<body onload="test(); getUsers(); getEvents();">
     <h1 id="welcome"></h1>
     <div>
         <button onclick='window.open("createEvent.html", "_self");'>Create Event</button>
+        <button onclick="displayAllEvents();">TEST</button>
     </div>
+    <div id="eventsList">
+        <p><b>LIST OF EVENTS</b></p>
+
+    </div>
+
+    <div id="outputTest"></div>
 </body>
 
 </html>

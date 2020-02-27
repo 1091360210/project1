@@ -7,12 +7,14 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
 
+
 namespace ProjectTemplate
 {
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     [System.Web.Script.Services.ScriptService]
+
 
     public class ProjectServices : System.Web.Services.WebService
     {
@@ -28,7 +30,7 @@ namespace ProjectTemplate
         ///call this method anywhere that you need the connection string!
         private string getConString()
         {
-            return "SERVER=107.180.1.16; PORT=3306; DATABASE=" + dbName + "; UID=" + dbID + "; PASSWORD=" + dbPass;
+            return "SERVER=107.180.1.16; PORT=3306; DATABASE=" + dbName + "; UID=" + dbID + "; PASSWORD=" + dbPass + "; Convert Zero Datetime=True;";
         }
         ////////////////////////////////////////////////////////////////////////
 
@@ -170,6 +172,82 @@ namespace ProjectTemplate
             success = true;
 
             return success;
+        }
+
+        //EXAMPLE OF A SELECT, AND RETURNING "COMPLEX" DATA TYPES
+        [WebMethod(EnableSession = true)]
+        public User[] getUsers()
+        {
+            //check out the return type.  It's an array of Account objects.  You can look at our custom Account class in this solution to see that it's 
+            //just a container for public class-level variables.  It's a simple container that asp.net will have no trouble converting into json.  When we return
+            //sets of information, it's a good idea to create a custom container class to represent instances (or rows) of that information, and then return an array of those objects.  
+            //Keeps everything simple.
+
+            DataTable sqlDt = new DataTable("users");
+
+            string sqlSelect = "select UID, UserName, FirstName, LasName, Email from Users order by UID";
+
+            MySqlConnection con = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
+
+            //gonna use this to fill a data table
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+            //filling the data table
+            sqlDa.Fill(sqlDt);
+
+            //loop through each row in the dataset, creating instances
+            //of our container class Account.  Fill each acciount with
+            //data from the rows, then dump them in a list.
+            List<User> users = new List<User>();
+            for (int i = 0; i < sqlDt.Rows.Count; i++)
+            {
+                users.Add(new User
+                {
+                    uid = Convert.ToInt32(sqlDt.Rows[i]["UID"]),
+                    userName = sqlDt.Rows[i]["UserName"].ToString(),
+                    firstName = sqlDt.Rows[i]["FirstName"].ToString(),
+                    lastName = sqlDt.Rows[i]["LasName"].ToString(),
+                    email = sqlDt.Rows[i]["Email"].ToString()
+                });
+            }
+            //convert the list of accounts to an array and return!
+            return users.ToArray();
+        }
+
+        [WebMethod(EnableSession = true)]
+        public Events[] getEvents()
+        {
+
+            DataTable sqlDt = new DataTable("events");
+
+            string sqlSelect = "select EID, EventTitle, EventDescription, EventDate, CreationDate, UID from Events order by EID";
+
+            MySqlConnection con = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
+
+            //gonna use this to fill a data table
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+            //filling the data table
+            sqlDa.Fill(sqlDt);
+
+            //loop through each row in the dataset, creating instances
+            //of our container class Account.  Fill each acciount with
+            //data from the rows, then dump them in a list.
+            List<Events> events = new List<Events>();
+            for (int i = 0; i < sqlDt.Rows.Count; i++)
+            {
+                events.Add(new Events
+                {
+                    eid = Convert.ToInt32(sqlDt.Rows[i]["EID"]),
+                    eventTitle = sqlDt.Rows[i]["EventTitle"].ToString(),
+                    eventDescription = sqlDt.Rows[i]["EventDescription"].ToString(),
+                    eventDate = sqlDt.Rows[i]["EventDate"].ToString(),
+                    creationDate = sqlDt.Rows[i]["CreationDate"].ToString(),
+                    uid = Convert.ToInt32(sqlDt.Rows[i]["UID"])
+                });
+            }
+            //convert the list of accounts to an array and return!
+            return events.ToArray();
         }
 
     }

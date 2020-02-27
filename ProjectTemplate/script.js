@@ -3,9 +3,8 @@ var testName = "test";
 var testPass = "test";
 
 var sessionUsername = "";
-
-const fs = require('fs');
-
+var usersArray;
+var eventsArray;
 
 // This function will be used when using database credentials
 function LogOn(username, pass) {
@@ -91,4 +90,53 @@ function checkCookie() {
 function test() {
     var sessionUsername = getCookie('username');
     document.getElementById('welcome').innerHTML = "Welcome, " + sessionUsername + "!";
+}
+
+//this function grabs accounts and loads our account window
+function getUsers() {
+    var webMethod = "ProjectServices.asmx/getUsers";
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            if (msg.d.length > 0) {
+                usersArray = msg.d;
+            }
+        },
+        error: function (e) {
+            alert("Error");
+        }
+    });
+}
+
+function getEvents() {
+    var webMethod = "ProjectServices.asmx/getEvents";
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            if (msg.d.length > 0) {
+                eventsArray = msg.d;
+            }
+        },
+        error: function (e) {
+            alert("Error");
+        }
+    });
+}
+
+function displayAllEvents() {
+
+    for (var i = 0; i < eventsArray.length; i++) {
+        var tag = document.createElement("p");
+        var text = document.createTextNode(eventsArray[i].eventTitle);
+        tag.appendChild(text);
+        var element = document.getElementById("eventsList");
+        element.appendChild(tag);
+        console.log(eventsArray[i].eventTitle);
+    }
 }
