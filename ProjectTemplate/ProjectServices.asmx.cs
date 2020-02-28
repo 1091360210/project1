@@ -250,6 +250,97 @@ namespace ProjectTemplate
             return events.ToArray();
         }
 
+        [WebMethod]
+        public bool Afavorite(string eid, string uid, string date, string eventDescription)
+        {
+            bool success = false;
+
+
+            MySqlConnection con = new MySqlConnection(getConString());
+
+            string sqlSelect = "Select * From Favorites WHERE EID = '" + eid + "'" + "and UID = '" + uid + "'";
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+            DataTable sqlDt = new DataTable();
+            sqlDa.Fill(sqlDt);
+            if (sqlDt.Rows.Count > 0)
+            {
+
+                success = false;
+            }
+            else
+            {
+                string sqlInsert = "INSERT INTO Favorites(`EID`,`UID`, `EventDescrption`) Values('" + eid + "','"
+                        + uid + "','" + eventDescription + "')";
+
+
+                MySqlCommand sqlCommand2 = new MySqlCommand(sqlInsert, con);
+                //a data adapter acts like a bridge between our command object and 
+                //the data we are trying to get back and put in a table object
+                con.Open();
+                sqlCommand2.ExecuteNonQuery();
+                con.Close();
+                success = true;
+            }
+
+            //return the result!
+            return success;
+        }
+
+        [WebMethod]
+        public Favorites[] GetFavorites(string uid)
+        {
+            List<Favorites> favoritesList = new List<Favorites>();
+            string sqlSelect = "SELECT * FROM Favorites WHERE UID = '" + uid + "'";
+
+            MySqlConnection con = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+            DataTable sqlDt = new DataTable();
+            sqlDa.Fill(sqlDt);
+            if (sqlDt.Rows.Count > 0)
+            {
+                for (int i = 0; i < sqlDt.Rows.Count; i++)
+                {
+                    favoritesList.Add(new Favorites
+                    {
+                        eid = Convert.ToInt32(sqlDt.Rows[i]["EID"]),
+                        uid = sqlDt.Rows[i]["UID"].ToString(),
+                        //eventDescription = sqlDt.Rows[i]["EventDescription"].ToString()
+                        eventDescription = "dsasda"
+
+                    });
+                }
+
+            }
+            else
+            {
+                return new Favorites[0];
+            }
+
+
+            return favoritesList.ToArray();
+        }
+
+
+        [WebMethod]
+        public bool Dfavorite(string eid, string uid)
+        {
+            bool success = true;
+
+
+            MySqlConnection con = new MySqlConnection(getConString());
+
+            string sqlSelect = "DELETE From Favorites WHERE EID = '" + eid + "'" + "and UID = '" + uid + "'";
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
+
+            con.Open();
+            sqlCommand.ExecuteNonQuery();
+            con.Close();
+            success = true;
+            return success;
+        }
+
     }
 }
             

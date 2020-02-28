@@ -130,7 +130,6 @@ function getEvents() {
 }
 
 function displayAllEvents() {
-
     for (var i = 0; i < eventsArray.length; i++) {
         var tag = document.createElement("p");
         var text = document.createTextNode(eventsArray[i].eventTitle);
@@ -139,4 +138,9 @@ function displayAllEvents() {
         element.appendChild(tag);
         console.log(eventsArray[i].eventTitle);
     }
+}
+
+function logOff() {
+    sessionUsername = "";
+    window.open("index.html", "_self");
 }

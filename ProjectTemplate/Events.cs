@@ -16,4 +16,13 @@ namespace ProjectTemplate
 
 
     }
+
+    public class Favorites
+    {
+        public int eid;
+        public string uid;
+        public string addDate;
+        public string eventDescription;
+
+    }
 }
