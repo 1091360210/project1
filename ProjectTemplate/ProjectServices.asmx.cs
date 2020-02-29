@@ -250,15 +250,15 @@ namespace ProjectTemplate
             return events.ToArray();
         }
 
-        [WebMethod]
-        public bool Afavorite(string eid, string uid, string date, string eventDescription)
+        [WebMethod(EnableSession = true)]
+        public bool Afavorite(string eid, string uName, string eventDescription)
         {
             bool success = false;
 
 
             MySqlConnection con = new MySqlConnection(getConString());
 
-            string sqlSelect = "Select * From Favorites WHERE EID = '" + eid + "'" + "and UID = '" + uid + "'";
+            string sqlSelect = "Select * From Favorites WHERE EID = '" + eid + "'" + "and UserName = '" + uName + "'";
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
             MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
             DataTable sqlDt = new DataTable();
@@ -270,8 +270,8 @@ namespace ProjectTemplate
             }
             else
             {
-                string sqlInsert = "INSERT INTO Favorites(`EID`,`UID`, `EventDescrption`) Values('" + eid + "','"
-                        + uid + "','" + eventDescription + "')";
+                string sqlInsert = "INSERT INTO Favorites(`EID`,`UserName`, `EventDescrption`) Values('" + eid + "','"
+                        + uName + "','" + eventDescription + "')";
 
 
                 MySqlCommand sqlCommand2 = new MySqlCommand(sqlInsert, con);
@@ -287,11 +287,12 @@ namespace ProjectTemplate
             return success;
         }
 
-        [WebMethod]
-        public Favorites[] GetFavorites(string uid)
+        [WebMethod(EnableSession = true)]
+        public Favorites[] GetFavorites()
         {
             List<Favorites> favoritesList = new List<Favorites>();
-            string sqlSelect = "SELECT * FROM Favorites WHERE UID = '" + uid + "'";
+            string sqlSelect = "SELECT * FROM Favorites";
+            /*WHERE UserName = '" + uName + "'"*/
 
             MySqlConnection con = new MySqlConnection(getConString());
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
@@ -305,9 +306,8 @@ namespace ProjectTemplate
                     favoritesList.Add(new Favorites
                     {
                         eid = Convert.ToInt32(sqlDt.Rows[i]["EID"]),
-                        uid = sqlDt.Rows[i]["UID"].ToString(),
-                        //eventDescription = sqlDt.Rows[i]["EventDescription"].ToString()
-                        eventDescription = "dsasda"
+                        uName = sqlDt.Rows[i]["UserName"].ToString(),
+                        eventDescription = sqlDt.Rows[i]["EventDescrption"].ToString(),
 
                     });
                 }
@@ -323,15 +323,15 @@ namespace ProjectTemplate
         }
 
 
-        [WebMethod]
-        public bool Dfavorite(string eid, string uid)
+        [WebMethod(EnableSession = true)]
+        public bool Dfavorite(string eid, string uName)
         {
             bool success = true;
 
 
             MySqlConnection con = new MySqlConnection(getConString());
 
-            string sqlSelect = "DELETE From Favorites WHERE EID = '" + eid + "'" + "and UID = '" + uid + "'";
+            string sqlSelect = "DELETE From Favorites WHERE EID = '" + eid + "'" + "and UserName = '" + uName + "'";
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
 
             con.Open();

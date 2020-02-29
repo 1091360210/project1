@@ -11,12 +11,12 @@
 
     <script>
         var sessionUsername;
-        
+
     </script>
 
 </head>
 
-<body onload="test(); getUsers(); getEvents();">
+<body onload="test(); getUsers(); getEvents(); getFavorites();">
     <h1 id="welcome"></h1>
     <div>
         <button onclick='window.open("createEvent.html", "_self");'>Create Event</button>
@@ -29,6 +29,11 @@
     </div>
 
     <div id="outputTest"></div>
+    <div id="favoritList">
+        <p>favorite lists</p>
+    </div>
+    <button onclick="displayFavorites();">flist</button>
+    <button onclick="deleteFaviorite()">delete</button>
 </body>
 
 </html>

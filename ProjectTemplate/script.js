@@ -5,6 +5,7 @@ var testPass = "test";
 var sessionUsername = "";
 var usersArray;
 var eventsArray;
+var favoriteArray;
 
 // This function will be used when using database credentials
 function LogOn(username, pass) {
@@ -144,3 +145,98 @@ function logOff() {
     sessionUsername = "";
     window.open("index.html", "_self");
 }
+
+function getFavorites(){
+    var sessionUsername = getCookie('username');
+    var webMethod = "ProjectServices.asmx/GetFavorites";
+    var parameters = "{\"uid\":\"" + encodeURI(sessionUsername) + "\"}";
+    console.log(sessionUsername);
+    console.log(favoriteArray);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        data: parameters,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+            if (msg.d.length > 0) {
+                favoriteArray = msg.d;
+           
+            }
+        },
+        error: function (e) {
+            alert(e.type);
+            console.log(favoriteArray);
+        }
+    });
+
+
+}
+
+/*function displayFavorites() {
+    var element = document.getElementById("favoritList");
+    for (var i = 0; i < favoriteArray.length; i++) {
+        radio = "<input type='radio' id='" + favoriteArray[i].eid + "' name = 'fList' value='" + favoriteArray[i].eid + "'>"
+        label = "<label for='" + favoriteArray[i].eid + "'>" + favoriteArray[i].eid + " " + favoriteArray[i].eventDescription + " " +
+            favoriteArray[i].uName + "</label><br>"
+        element.appendChild(radio);
+        element.appendChild(label);
+        console.log(eventsArray[i].eventTitle);
+       
+    }
+}*/
+
+function displayFavorites() {
+    var element = document.getElementById("favoritList");
+    var sessionUsername = getCookie('username');
+    for (var i = 0; i < favoriteArray.length; i++) {
+        if (sessionUsername == favoriteArray[i].uName) {
+            var radioInput = document.createElement('input');
+            radioInput.setAttribute('type', 'radio');
+            radioInput.setAttribute('name', 'fList');
+            radioInput.setAttribute('class', 'favoriteClass');
+            radioInput.setAttribute("value", favoriteArray[i].eid);
+            radioInput.setAttribute("id", favoriteArray[i].eid);
+            var labels = document.createElement("label");
+            labels.setAttribute('for', favoriteArray[i].eid);
+            labels.setAttribute("class", "favoriteClass");
+            labels.innerHTML = favoriteArray[i].eid + " " + favoriteArray[i].eventDescription + " " + favoriteArray[i].uName;
+            var lineBreak = document.createElement("br");
+            element.appendChild(radioInput);
+            element.appendChild(labels);
+            element.appendChild(lineBreak);
+        }
+    }   
+    
+}
+
+
+function deleteFaviorite() {
+    var sessionUsername = getCookie('username');
+    var eid = $("input:radio[name=fList]:checked").val()
+    var webMethod = "ProjectServices.asmx/Dfavorite";
+    var parameters = "{\"eid\":\"" + encodeURI(eid) + "\",\"uName\":\"" + encodeURI(sessionUsername) + "\"}";
+    console.log(parameters)
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        data: parameters,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+           
+                alert("Event Removed!");
+            console.log(favoriteArray);
+            //remove all lables and radio button in favorite list div.
+            $('.favoriteClass').remove();
+            //refresh the page.
+                window.location.reload();
+            
+        },
+        error: function (e) {
+            alert(e.type);
+        }
+    });
+}
+
+
