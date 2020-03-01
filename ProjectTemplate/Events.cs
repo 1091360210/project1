@@ -22,6 +22,7 @@ namespace ProjectTemplate
         public int eid;
         public string uName;
         public string eventDescription;
+        public string contactInfo;
 
     }
 }

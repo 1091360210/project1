@@ -7,6 +7,7 @@ var usersArray;
 var eventsArray;
 var favoriteArray;
 
+
 // This function will be used when using database credentials
 function LogOn(username, pass) {
     var webMethod = "ProjectServices.asmx/LogOn";
@@ -130,7 +131,7 @@ function getEvents() {
     });
 }
 
-function displayAllEvents() {
+/*function displayAllEvents() {
     for (var i = 0; i < eventsArray.length; i++) {
         var tag = document.createElement("p");
         var text = document.createTextNode(eventsArray[i].eventTitle);
@@ -139,7 +140,31 @@ function displayAllEvents() {
         element.appendChild(tag);
         console.log(eventsArray[i].eventTitle);
     }
+}*/
+
+
+function displayAllEvents() {
+    var element = document.getElementById("eventsList");
+    for (var i = 0; i < eventsArray.length; i++) {
+        
+            var radioInput = document.createElement('input');
+            radioInput.setAttribute('type', 'radio');
+            radioInput.setAttribute('name', 'eList');
+            radioInput.setAttribute('class', 'eventsClass');
+            radioInput.setAttribute("value", eventsArray[i].eid);
+            radioInput.setAttribute("id", eventsArray[i].eid);
+            var labels = document.createElement("label");
+        labels.setAttribute('for', eventsArray[i].eid);
+            labels.setAttribute("class", "favoriteClass");
+        labels.innerHTML = eventsArray[i].eid + ". " + eventsArray[i].eventTitle + ". " + eventsArray[i].eventDescription + ". " + eventsArray[i].uid;
+            var lineBreak = document.createElement("br");
+            element.appendChild(radioInput);
+            element.appendChild(labels);
+            element.appendChild(lineBreak);
+        
+    }   
 }
+
 
 function logOff() {
     sessionUsername = "";
@@ -173,18 +198,6 @@ function getFavorites(){
 
 }
 
-/*function displayFavorites() {
-    var element = document.getElementById("favoritList");
-    for (var i = 0; i < favoriteArray.length; i++) {
-        radio = "<input type='radio' id='" + favoriteArray[i].eid + "' name = 'fList' value='" + favoriteArray[i].eid + "'>"
-        label = "<label for='" + favoriteArray[i].eid + "'>" + favoriteArray[i].eid + " " + favoriteArray[i].eventDescription + " " +
-            favoriteArray[i].uName + "</label><br>"
-        element.appendChild(radio);
-        element.appendChild(label);
-        console.log(eventsArray[i].eventTitle);
-       
-    }
-}*/
 
 function displayFavorites() {
     var element = document.getElementById("favoritList");
@@ -200,7 +213,7 @@ function displayFavorites() {
             var labels = document.createElement("label");
             labels.setAttribute('for', favoriteArray[i].eid);
             labels.setAttribute("class", "favoriteClass");
-            labels.innerHTML = favoriteArray[i].eid + " " + favoriteArray[i].eventDescription + " " + favoriteArray[i].uName;
+            labels.innerHTML = favoriteArray[i].eid + ". " + favoriteArray[i].eventDescription +  ". " + favoriteArray[i].contactInfo;
             var lineBreak = document.createElement("br");
             element.appendChild(radioInput);
             element.appendChild(labels);
@@ -230,7 +243,9 @@ function deleteFaviorite() {
             //remove all lables and radio button in favorite list div.
             $('.favoriteClass').remove();
             //refresh the page.
-                window.location.reload();
+            window.location.reload();
+            
+
             
         },
         error: function (e) {
@@ -239,4 +254,37 @@ function deleteFaviorite() {
     });
 }
 
+
+
+
+/*function displayYourEvents() {
+    var element = document.getElementById("yourEventList");
+    var uid;
+    var sessionUsername = getCookie('username');
+    getUsers();
+    for (var i = 0; i < usersArray.length; i++) {
+        if (sessionUsername == usersArray[i].userName) {
+            uid = usersArray[i].uid;
+        }
+    }
+    
+    for (var i = 0; i < eventsArray[i].length; i++) {
+        if (userID == eventsArray[i].uid) {
+            var radioInput = document.createElement('input');
+            radioInput.setAttribute('type', 'radio');
+            radioInput.setAttribute('name', 'yourList');
+            radioInput.setAttribute('class', 'ownClass');
+            radioInput.setAttribute("value", eventsArray[i].eid);
+            radioInput.setAttribute("id", eventsArray[i].eid);
+            var labels = document.createElement("label");
+            labels.setAttribute('for', eventsArray[i].eid);
+            labels.setAttribute("class", "favoriteClass");
+            labels.innerHTML = "Event ID: " + eventsArray[i].eid + ". Event Description: " + eventsArray[i].eventDescription + ". Event Host Contact information: ";
+            var lineBreak = document.createElement("br");
+            element.appendChild(radioInput);
+            element.appendChild(labels);
+            element.appendChild(lineBreak);
+        }
+    }  
+}*/
 

@@ -251,7 +251,7 @@ namespace ProjectTemplate
         }
 
         [WebMethod(EnableSession = true)]
-        public bool Afavorite(string eid, string uName, string eventDescription)
+        public bool Afavorite(string eid, string uName, string eventDescription, string contact)
         {
             bool success = false;
 
@@ -270,8 +270,8 @@ namespace ProjectTemplate
             }
             else
             {
-                string sqlInsert = "INSERT INTO Favorites(`EID`,`UserName`, `EventDescrption`) Values('" + eid + "','"
-                        + uName + "','" + eventDescription + "')";
+                string sqlInsert = "INSERT INTO Favorites(`EID`,`UserName`, `EventDescrption`,`ContactInfo`) Values('" + eid + "','"
+                        + uName + "','" + eventDescription + "','" + contact + "')";
 
 
                 MySqlCommand sqlCommand2 = new MySqlCommand(sqlInsert, con);
@@ -308,6 +308,7 @@ namespace ProjectTemplate
                         eid = Convert.ToInt32(sqlDt.Rows[i]["EID"]),
                         uName = sqlDt.Rows[i]["UserName"].ToString(),
                         eventDescription = sqlDt.Rows[i]["EventDescrption"].ToString(),
+                        contactInfo = sqlDt.Rows[i]["ContactInfo"].ToString(),
 
                     });
                 }
@@ -327,19 +328,46 @@ namespace ProjectTemplate
         public bool Dfavorite(string eid, string uName)
         {
             bool success = true;
+            if (eid == null) {
+                success = false;
 
+            }
+            else {
+                MySqlConnection con = new MySqlConnection(getConString());
 
-            MySqlConnection con = new MySqlConnection(getConString());
+                string sqlSelect = "DELETE From Favorites WHERE EID = '" + eid + "'" + "and UserName = '" + uName + "'";
+                MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
 
-            string sqlSelect = "DELETE From Favorites WHERE EID = '" + eid + "'" + "and UserName = '" + uName + "'";
-            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
-
-            con.Open();
-            sqlCommand.ExecuteNonQuery();
-            con.Close();
-            success = true;
+                con.Open();
+                sqlCommand.ExecuteNonQuery();
+                con.Close();
+                success = true; }
             return success;
         }
+
+
+
+        [WebMethod(EnableSession = true)]
+        public Int32 GetUserId(string uName) {
+            Int32 uid = -1;
+            string sqlSelect = "SELECT UID FROM Users Where UserName ='" + uName + "'";
+            /*WHERE UserName = '" + uName + "'"*/
+
+            MySqlConnection con = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, con);
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+            DataTable sqlDt = new DataTable();
+            sqlDa.Fill(sqlDt);
+            if (sqlDt.Rows.Count > 0)
+            {
+                uid = Convert.ToInt32(sqlDt.Rows[0]["UID"]);
+            }
+            return uid;
+
+        }
+
+
+
 
     }
 }
