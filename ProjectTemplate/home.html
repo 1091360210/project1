@@ -20,8 +20,9 @@
     <h1 id="welcome"></h1>
     <div>
         <button onclick='window.open("createEvent.html", "_self");'>Create Event</button>
-        <button onclick="displayAllEvents();">TEST</button>
+        <button onclick="displayAllEvents();">Show All Events</button>
         <button onclick="logOff();">Log Out</button>
+        <button onclick="addFavorite();">Add to favorites</button>
     </div>
     <div id="eventsList">
         <p><b>LIST OF EVENTS: (Event ID, Event Title, Event Description, Added by User)</b></p>
@@ -38,12 +39,7 @@
         <button onclick="deleteFaviorite();">Delete Selected favorite</button>
     </div>
 
-    <div id="yourEventsOutput">
-        <div id="yourEventList">
-            <h3>Your Posted Events:</h3>
-        </div>
-        <button onclick="displayYourEvents();">See Your Posted Event</button>
-    </div>  
+ 
 </body>
 
 </html>

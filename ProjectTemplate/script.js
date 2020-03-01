@@ -175,8 +175,6 @@ function getFavorites(){
     var sessionUsername = getCookie('username');
     var webMethod = "ProjectServices.asmx/GetFavorites";
     var parameters = "{\"uid\":\"" + encodeURI(sessionUsername) + "\"}";
-    console.log(sessionUsername);
-    console.log(favoriteArray);
     $.ajax({
         type: "POST",
         url: webMethod,
@@ -238,8 +236,7 @@ function deleteFaviorite() {
         dataType: "json",
         success: function (msg) {
            
-                alert("Event Removed!");
-            console.log(favoriteArray);
+            alert("Favorite Removed!");
             //remove all lables and radio button in favorite list div.
             $('.favoriteClass').remove();
             //refresh the page.
@@ -255,6 +252,48 @@ function deleteFaviorite() {
 }
 
 
+
+function addFavorite() {
+    var sessionUsername = getCookie('username');
+    var eid = $("input:radio[name=eList]:checked").val();
+    var host;
+    var eventDes;
+    for (var i = 0; i < eventsArray.length; i++) {
+        if (eid == eventsArray[i].eid) {
+            host = eventsArray[i].uid;
+            eventDes = eventsArray[i].eventDescription;
+        }
+    }
+
+    var webMethod = "ProjectServices.asmx/Afavorite";
+    var parameters = "{\"eid\":\"" + encodeURI(eid) + "\",\"uName\":\"" + encodeURI(sessionUsername) +
+        "\",\"eventDescription\":\"" + encodeURI(eventDes) + "\",\"contact\":\"" + encodeURI(host) + "\"}";
+    console.log(parameters);
+    
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        data: parameters,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (msg) {
+
+            alert("Favorite Added!");
+          
+         
+            
+            window.location.reload();
+        },
+        error: function (e) {
+            alert("failed to add favorite.")
+        }
+    });
+
+    window.location.reload();
+
+    
+
+}
 
 
 /*function displayYourEvents() {
