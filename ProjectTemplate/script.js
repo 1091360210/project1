@@ -189,7 +189,7 @@ function getFavorites(){
         },
         error: function (e) {
             alert(e.type);
-            console.log(favoriteArray);
+            
         }
     });
 
@@ -200,26 +200,27 @@ function getFavorites(){
 function displayFavorites() {
     var element = document.getElementById("favoritList");
     var sessionUsername = getCookie('username');
+    var email;
     for (var i = 0; i < favoriteArray.length; i++) {
-        if (sessionUsername == favoriteArray[i].uName) {
-            var radioInput = document.createElement('input');
-            radioInput.setAttribute('type', 'radio');
-            radioInput.setAttribute('name', 'fList');
-            radioInput.setAttribute('class', 'favoriteClass');
-            radioInput.setAttribute("value", favoriteArray[i].eid);
-            radioInput.setAttribute("id", favoriteArray[i].eid);
-            var labels = document.createElement("label");
-            labels.setAttribute('for', favoriteArray[i].eid);
-            labels.setAttribute("class", "favoriteClass");
-            labels.innerHTML = favoriteArray[i].eid + ". " + favoriteArray[i].eventDescription +  ". " + favoriteArray[i].contactInfo;
-            var lineBreak = document.createElement("br");
-            element.appendChild(radioInput);
-            element.appendChild(labels);
-            element.appendChild(lineBreak);
+                var radioInput = document.createElement('input');
+                radioInput.setAttribute('type', 'radio');
+                radioInput.setAttribute('name', 'fList');
+                radioInput.setAttribute('class', 'favoriteClass');
+                radioInput.setAttribute("value", favoriteArray[i].eid);
+                radioInput.setAttribute("id", favoriteArray[i].eid);
+                var labels = document.createElement("label");
+                labels.setAttribute('for', favoriteArray[i].eid);
+                labels.setAttribute("class", "favoriteClass");
+                labels.innerHTML = favoriteArray[i].eid + ". " + favoriteArray[i].eventDescription + ". " + favoriteArray[i].contactInfo;
+                var lineBreak = document.createElement("br");
+                element.appendChild(radioInput);
+                element.appendChild(labels);
+                element.appendChild(lineBreak);
+            }
         }
-    }   
+      
     
-}
+
 
 
 function deleteFaviorite() {
@@ -264,11 +265,11 @@ function addFavorite() {
             eventDes = eventsArray[i].eventDescription;
         }
     }
-
+    
     var webMethod = "ProjectServices.asmx/Afavorite";
     var parameters = "{\"eid\":\"" + encodeURI(eid) + "\",\"uName\":\"" + encodeURI(sessionUsername) +
         "\",\"eventDescription\":\"" + encodeURI(eventDes) + "\",\"contact\":\"" + encodeURI(host) + "\"}";
-    console.log(parameters);
+    
     
     $.ajax({
         type: "POST",
@@ -276,12 +277,8 @@ function addFavorite() {
         data: parameters,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function (msg) {
-
+        success: function () {
             alert("Favorite Added!");
-          
-         
-            
             window.location.reload();
         },
         error: function (e) {
@@ -289,7 +286,7 @@ function addFavorite() {
         }
     });
 
-    window.location.reload();
+    
 
     
 
