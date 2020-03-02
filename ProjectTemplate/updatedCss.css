@@ -1,0 +1,84 @@
+body { 
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #34495e;
+}
+
+.contentContainer {
+    width: 300px;
+    padding: 40px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #191919;
+    text-align: center;
+}
+
+.contentContainer h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.contentContainer input[type = "text"],
+.contentContainer input[type = "password"],
+.contentContainer input[type = "date"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: .25s;
+}
+.contentContainer input[id = "eventDesc"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 40px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: .25s;    
+}
+
+
+
+.contentContainer input[type = "text"]:focus,
+.contentContainer input[type = "password"]:focus
+.contentContainer input[type = "date"]:focus {
+    width: 280px;
+    border-color: #2ecc71;
+}
+
+.contentContainer button {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: .25s;
+    cursor: pointer;
+}
+
+.contentContainer button:hover {
+    background: #2ecc71;
+}
+

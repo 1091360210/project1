@@ -3,58 +3,10 @@
 <head>
 	<meta charset="utf-8" />
 	<title></title>
-    <link rel="stylesheet" type="text/css" href="cssStyleSheet.css" />
+    <link rel="stylesheet" type="text/css" href="updatedCss.css" />
 	<!--DO NOT FORGET THIS SCRIPT TAG SO YOU CAN USE JQUERY!!!!!-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="script.js"></script>
-
-	<!--<style>
-        #homePanel{
-            visibility: hidden;
-        }
-
-        .logonBox {
-            text-align: center;
-        }
-            .logonbox input {
-                text-align: left;
-                
-            }
-
-            #logonId, #logonPassword {
-                float: right;
-            }
-
-        button {
-            width: 100px;
-            margin: 5px;
-        }
-
-        html, body {
-            height: 100%;
-        } 
-
-        h1 {
-            font-size: 40px;
-        }
-
-        .entryInfo {
-            text-align: center;
-        }
-
-        .contentContainer {
-            background-color: lightgrey;
-            width: 300px;
-            border: 5px solid maroon;
-            padding: 50px;
-            margin: auto;
-        }
-
-        #error {
-            color:red;
-        }
-
-	</style>-->
 
 </head >
 <body>
@@ -63,19 +15,19 @@
     <div class="contentContainer">
         <div id="logonPanel" class="contentPanel logonPanel">
             <div class="logonBox">
-                <h1>Sign In!</h1>
-                <hr />
+                <h1>Login</h1>
+                
                 <div class="entryInfo">
-                    <div>Username:<input type="text" id="logonId" /></div>
+                    <div><input type="text" id="logonId" placeholder="Username"/></div>
                 </div>
                 <p></p>
                 <div class="entryInfo">
-                    <div>Password:<input type="password" id="logonPassword" /></div>
+                    <div><input type="password" id="logonPassword" placeholder="Password"/></div>
                 </div>
-                <hr />
+                
                 <div>
                     <button onclick="LogOn(document.getElementById('logonId').value,
-                    document.getElementById('logonPassword').value);">Log In</button>
+                    document.getElementById('logonPassword').value);">Login</button>
                 </div>
                 <a href="register.html">Create an Account</a>
                 <div id="error"></div>

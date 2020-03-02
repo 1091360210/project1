@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <link rel="stylesheet" type="text/css" href="updatedCss.css" />
     <!--DO NOT FORGET THIS SCRIPT TAG SO YOU CAN USE JQUERY!!!!!-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -61,7 +62,7 @@
         }
 
     </script>
-
+<!-- 
     <style>
         #homePanel {
             visibility: hidden;
@@ -75,7 +76,7 @@
             width: 100px;
             margin: 5px;
         }
-    </style>
+    </style> -->
 
 </head>
 <body>
@@ -87,17 +88,23 @@
                 <h1>Create Event!</h1>
                 <hr />
                 <div class="entryInfo">
-                    <div>Event Title: </div>
-                    <div><input type="text" id="eventTitle" /></div>
+                    <div></div>
+                    <div><input type="text" id="eventTitle" placeholder="Event Title"/></div>
                 </div>
                 <div class="entryInfo">
-                    <div>Event Description: </div>
-                    <div><input type="text" id="eventDesc" /></div>
+                    <div></div>
+                    <div><input type="text" id="eventDesc" placeholder="Event Description"/></div>
                 </div>
                 <div class="entryInfo">
-                    <div>Event Date: </div>
-                    <div><input type="date" id="eventDate" /></div>
+                    <div></div>
+                    
+                    <div><input type="text" id="eventDate" placeholder="Event Date"
+                        onfocus="(this.type='date')"
+                        onblur="(this.type='text')"/>
+                    </div>
+
                 </div>
+
                 <hr />
                 <div>
                     <button onclick="crtEvent(document.getElementById('eventTitle').value, document.getElementById('eventDesc').value, document.getElementById('eventDate').value, currentDate, testUID);">Create Event</button>
