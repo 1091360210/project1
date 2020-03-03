@@ -229,7 +229,8 @@ function displayFavorites() {
             element.appendChild(labels);
             element.appendChild(lineBreak);
         }
-            }
+    }
+        document.getElementById("deleteButton").style.display = "block";
         }
       
     
