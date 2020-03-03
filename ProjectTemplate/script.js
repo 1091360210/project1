@@ -200,22 +200,35 @@ function getFavorites(){
 function displayFavorites() {
     var element = document.getElementById("favoritList");
     var sessionUsername = getCookie('username');
-    var email;
+    getUsers();
+    getFavorites();
     for (var i = 0; i < favoriteArray.length; i++) {
-                var radioInput = document.createElement('input');
-                radioInput.setAttribute('type', 'radio');
-                radioInput.setAttribute('name', 'fList');
-                radioInput.setAttribute('class', 'favoriteClass');
-                radioInput.setAttribute("value", favoriteArray[i].eid);
-                radioInput.setAttribute("id", favoriteArray[i].eid);
-                var labels = document.createElement("label");
-                labels.setAttribute('for', favoriteArray[i].eid);
-                labels.setAttribute("class", "favoriteClass");
-                labels.innerHTML = favoriteArray[i].eid + ". " + favoriteArray[i].eventDescription + ". " + favoriteArray[i].contactInfo;
-                var lineBreak = document.createElement("br");
-                element.appendChild(radioInput);
-                element.appendChild(labels);
-                element.appendChild(lineBreak);
+        if (sessionUsername == favoriteArray[i].uName) {
+            let email;
+            let uid = favoriteArray[i].contactInfo;
+            console.log(uid);
+            for (z = 0; z < usersArray.length; z++) {
+                if (uid == usersArray[z].uid) {
+                    email = usersArray[z].email;
+                    
+                }
+            }
+            
+            var radioInput = document.createElement('input');
+            radioInput.setAttribute('type', 'radio');
+            radioInput.setAttribute('name', 'fList');
+            radioInput.setAttribute('class', 'favoriteClass');
+            radioInput.setAttribute("value", favoriteArray[i].eid);
+            radioInput.setAttribute("id", favoriteArray[i].eid);
+            var labels = document.createElement("label");
+            labels.setAttribute('for', favoriteArray[i].eid);
+            labels.setAttribute("class", "favoriteClass");
+            labels.innerHTML = favoriteArray[i].eid + "." + favoriteArray[i].eventDescription + "." + favoriteArray[i].contactInfo + "." + email;
+            var lineBreak = document.createElement("br");
+            element.appendChild(radioInput);
+            element.appendChild(labels);
+            element.appendChild(lineBreak);
+        }
             }
         }
       
