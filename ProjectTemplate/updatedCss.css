@@ -8,12 +8,14 @@ body {
 .contentContainer {
     width: 300px;
     padding: 40px;
-    position: absolute;
+    /*position: absolute;
     top: 30%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
     background: #191919;
     text-align: center;
+    margin: auto;
+    display: block;
 }
 
 .contentContainer h1 {
