@@ -144,25 +144,54 @@ function getEvents() {
 
 
 function displayAllEvents() {
+
+    document.getElementById("dispEvent").style.display = "block";
     var element = document.getElementById("eventsList");
+    element.setAttribute('display', 'block');
     for (var i = 0; i < eventsArray.length; i++) {
-        
-            var radioInput = document.createElement('input');
-            radioInput.setAttribute('type', 'radio');
-            radioInput.setAttribute('name', 'eList');
-            radioInput.setAttribute('class', 'eventsClass');
-            radioInput.setAttribute("value", eventsArray[i].eid);
-            radioInput.setAttribute("id", eventsArray[i].eid);
-            var labels = document.createElement("label");
+
+        var newRow = document.createElement("tr");
+        var tdTitle = document.createElement('td');
+        var tdDesc = document.createElement('td');
+        var tdRadioButton = document.createElement('td');
+
+        newRow.setAttribute('margin', 'auto');
+        newRow.setAttribute('display', 'block');
+
+        element.appendChild(newRow);
+
+        var radioInput = document.createElement('input');
+        radioInput.setAttribute('type', 'radio');
+        radioInput.setAttribute('name', 'eList');
+        radioInput.setAttribute('class', 'eventsClass');
+        radioInput.setAttribute("value", eventsArray[i].eid);
+        radioInput.setAttribute("id", eventsArray[i].eid);
+
+
+        tdRadioButton.appendChild(radioInput);
+
+        tdTitle.innerHTML = eventsArray[i].eventTitle;
+        tdDesc.innerHTML = eventsArray[i].eventDescription;
+
+
+        newRow.appendChild(tdRadioButton);
+        newRow.appendChild(tdTitle);
+        newRow.appendChild(tdDesc);
+        element.appendChild(newRow);
+
+
+        /*var labels = document.createElement("label");
         labels.setAttribute('for', eventsArray[i].eid);
-            labels.setAttribute("class", "favoriteClass");
+        labels.setAttribute("class", "favoriteClass");
         labels.innerHTML = eventsArray[i].eid + ". " + eventsArray[i].eventTitle + ". " + eventsArray[i].eventDescription + ". " + eventsArray[i].uid;
-            var lineBreak = document.createElement("br");
-            element.appendChild(radioInput);
-            element.appendChild(labels);
-            element.appendChild(lineBreak);
-        
-    }   
+        var lineBreak = document.createElement("br");
+        element.appendChild(radioInput);
+        element.appendChild(labels);
+        element.appendChild(lineBreak);*/
+
+
+    }
+    document.getElementById("addFavorite").style.display = "block";
 }
 
 
@@ -198,40 +227,73 @@ function getFavorites(){
 
 
 function displayFavorites() {
+
+    document.getElementById("dispFav").style.display = "block";
+    document.getElementById("deleteButton").style.display = "block";
     var element = document.getElementById("favoritList");
     var sessionUsername = getCookie('username');
     getUsers();
     getFavorites();
+
+
     for (var i = 0; i < favoriteArray.length; i++) {
         if (sessionUsername == favoriteArray[i].uName) {
             let email;
+            let title;
+            let eid = favoriteArray[i].eid;
             let uid = favoriteArray[i].contactInfo;
             console.log(uid);
             for (z = 0; z < usersArray.length; z++) {
                 if (uid == usersArray[z].uid) {
                     email = usersArray[z].email;
-                    
+
                 }
             }
-            
+
+            for (var j = 0; j < eventsArray.length; j++) {
+                if (eid == eventsArray[j].eid) {
+                    title = eventsArray[j].eventTitle;
+                }
+            }
+
+
+            let  newRow = document.createElement("tr");
+            let tdTitle = document.createElement('td');
+            let  tdDesc = document.createElement('td');
+            let  tdRadioButton = document.createElement('td');
+
+            newRow.setAttribute('margin', 'auto');
+            newRow.setAttribute('display', 'block');
+
             var radioInput = document.createElement('input');
             radioInput.setAttribute('type', 'radio');
             radioInput.setAttribute('name', 'fList');
             radioInput.setAttribute('class', 'favoriteClass');
             radioInput.setAttribute("value", favoriteArray[i].eid);
             radioInput.setAttribute("id", favoriteArray[i].eid);
-            var labels = document.createElement("label");
+
+            tdRadioButton.appendChild(radioInput);
+
+            tdTitle.innerHTML = title;
+            tdDesc.innerHTML = favoriteArray[i].eventDescription;
+
+
+            newRow.appendChild(tdRadioButton);
+            newRow.appendChild(tdTitle);
+            newRow.appendChild(tdDesc);
+            element.appendChild(newRow);
+
+            /*var labels = document.createElement("label");
             labels.setAttribute('for', favoriteArray[i].eid);
             labels.setAttribute("class", "favoriteClass");
             labels.innerHTML = favoriteArray[i].eid + "." + favoriteArray[i].eventDescription + "." + favoriteArray[i].contactInfo + "." + email;
             var lineBreak = document.createElement("br");
             element.appendChild(radioInput);
             element.appendChild(labels);
-            element.appendChild(lineBreak);
+            element.appendChild(lineBreak);*/
         }
     }
-        document.getElementById("deleteButton").style.display = "block";
-        }
+}
       
     
 

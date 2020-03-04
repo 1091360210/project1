@@ -84,3 +84,26 @@ body {
     background: #2ecc71;
 }
 
+.displayCont{
+    margin: auto;
+    display: block;
+}
+
+#eventsList{
+    margin:auto;
+    display:block;
+    color:white;
+    border:2px solid lightgrey;
+}
+
+#eventsList>tr {
+    margin:auto;
+    display:block;
+}
+
+#favoritList {
+    margin: auto;
+    display: block;
+    color: white;
+    border: 2px solid lightgrey;
+}

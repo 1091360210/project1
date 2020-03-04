@@ -17,26 +17,38 @@
 
 </head>
 
-<body onload="test(); getUsers(); getEvents(); getFavorites(); ">
+<body onload="test(); getUsers(); getEvents(); getFavorites();">
     <div class="contentContainer">
         <h1 id="welcome"></h1>
         <div>
             <button onclick='window.open("createEvent.html", "_self");'>Create Event</button>
             <button onclick="displayAllEvents();">Show All Events</button>
-            <button onclick="addFavorite();">Add to favorites</button>
-            <button onclick="logOff();">Log Out</button>
-        </div>
-        <div id="eventsList">
 
-        </div>
+            <div class="displayCont" id="dispEvent" style='display:none'>
+                <table id="eventsList">
 
-        <div id="outputTest"></div>
-
-        <div id="favoriteOutput">
-            <div id="favoritList">
+                </table>
             </div>
+            <button onclick="addFavorite();" id='addFavorite' style="display:none">Add to Favorites</button>
             <button onclick="displayFavorites();" id="showFavorite">Show Favorite List</button>
-            <button id ="deleteButton" onclick="deleteFaviorite();" style="display:none">Delete Selected favorite</button>
+
+            <div class="displayCont" id="dispFav" style='display:none'>
+                <table id="favoritList">
+
+                </table>
+            </div>
+
+            <button id="deleteButton" onclick="deleteFaviorite();" style="display:none">Delete Selected favorite</button>
+
+            <button onclick="logOff();">Log Out</button>
+
+
+
+            <div id="outputTest"></div>
+
+
+
+
         </div>
 
     </div>
