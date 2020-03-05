@@ -1,8 +1,11 @@
-body { 
+@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One|Anton|Fredoka+One|Luckiest+Guy|Monoton|Nosifer|Orbitron|Righteous|Trade+Winds&display=swap');
+
+body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #34495e;
+    /*background: #34495e;*/
+    background-image: linear-gradient(to right, black, darkslategrey, black);
 }
 
 .contentContainer {
@@ -12,17 +15,30 @@ body {
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);*/
-    background: #191919;
+    /*background: #191919;*/
+    background-color: black;
     text-align: center;
     margin: auto;
     display: block;
+    opacity: .8;
+    border-radius:24px;
 }
 
-.contentContainer h1 {
-    color: white;
-    text-transform: uppercase;
-    font-weight: 500;
-}
+    .contentContainer h1 {
+        color: white;
+        font-weight: 500;
+        font-family: 'Trade Winds', cursive;
+        font-family: 'Anton', sans-serif;
+        font-family: 'Righteous', cursive;
+        font-family: 'Fredoka One', cursive;
+        font-family: 'Nosifer', cursive;
+        font-family: 'Luckiest Guy', cursive;
+        font-family: 'Alfa Slab One', cursive;
+        font-family: 'Orbitron', sans-serif;
+        font-family: 'Monoton', cursive;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+    }
 
 .contentContainer input[type = "text"],
 .contentContainer input[type = "password"],
@@ -89,11 +105,15 @@ body {
     display: block;
 }
 
-#eventsList{
-    margin:auto;
-    display:block;
-    color:white;
-    border:2px solid lightgrey;
+#eventsList {
+    margin: auto;
+    display: block;
+    color: white;
+    border: 2px solid darkslategrey;
+    background-color: darkslategrey;
+    border-radius: 24px;
+    font-family: sans-serif;
+    font-size: 12px;
 }
 
 #eventsList>tr {
@@ -105,5 +125,16 @@ body {
     margin: auto;
     display: block;
     color: white;
-    border: 2px solid lightgrey;
+    border: 2px solid darkslategrey;
+    background-color: darkslategrey;
+    border-radius: 24px;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+input[type = "radio"] {
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
 }
