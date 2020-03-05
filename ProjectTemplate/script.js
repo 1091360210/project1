@@ -148,11 +148,12 @@ function displayAllEvents() {
     document.getElementById("dispEvent").style.display = "block";
     var element = document.getElementById("eventsList");
     element.setAttribute('display', 'block');
+    element.innerHTML = "";
     for (var i = 0; i < eventsArray.length; i++) {
-
         var newRow = document.createElement("tr");
         var tdTitle = document.createElement('td');
         var tdDesc = document.createElement('td');
+        var tdUser = document.createElement('td');
         var tdRadioButton = document.createElement('td');
 
         newRow.setAttribute('margin', 'auto');
@@ -172,11 +173,12 @@ function displayAllEvents() {
 
         tdTitle.innerHTML = eventsArray[i].eventTitle;
         tdDesc.innerHTML = eventsArray[i].eventDescription;
-
+        tdUser.innerHTML = "  Posted by User:" + eventsArray[i].uid;
 
         newRow.appendChild(tdRadioButton);
         newRow.appendChild(tdTitle);
         newRow.appendChild(tdDesc);
+        newRow.appendChild(tdUser);
         element.appendChild(newRow);
 
 
@@ -232,6 +234,7 @@ function displayFavorites() {
     document.getElementById("deleteButton").style.display = "block";
     var element = document.getElementById("favoritList");
     var sessionUsername = getCookie('username');
+    element.innerHTML = '';
     getUsers();
     getFavorites();
 
@@ -369,34 +372,59 @@ function addFavorite() {
 }
 
 
-/*function displayYourEvents() {
-    var element = document.getElementById("yourEventList");
-    var uid;
+function displayYourEvents() {
+    var element = document.getElementById("yourEvents");
+    element.innerHTML = "";
+    var userID;
     var sessionUsername = getCookie('username');
     getUsers();
+    
     for (var i = 0; i < usersArray.length; i++) {
         if (sessionUsername == usersArray[i].userName) {
-            uid = usersArray[i].uid;
+            userID = usersArray[i].uid;
+            console.log(userID);
         }
     }
-    
-    for (var i = 0; i < eventsArray[i].length; i++) {
+    getEvents();
+    for (var i = 0; i < eventsArray.length; i++) {
         if (userID == eventsArray[i].uid) {
+            console.log(eventsArray[i]);
             var radioInput = document.createElement('input');
             radioInput.setAttribute('type', 'radio');
             radioInput.setAttribute('name', 'yourList');
             radioInput.setAttribute('class', 'ownClass');
             radioInput.setAttribute("value", eventsArray[i].eid);
             radioInput.setAttribute("id", eventsArray[i].eid);
-            var labels = document.createElement("label");
-            labels.setAttribute('for', eventsArray[i].eid);
-            labels.setAttribute("class", "favoriteClass");
-            labels.innerHTML = "Event ID: " + eventsArray[i].eid + ". Event Description: " + eventsArray[i].eventDescription + ". Event Host Contact information: ";
-            var lineBreak = document.createElement("br");
-            element.appendChild(radioInput);
-            element.appendChild(labels);
-            element.appendChild(lineBreak);
+
+            var newRow = document.createElement("tr");
+            var tdTitle = document.createElement('td');
+            var tdDesc = document.createElement('td');
+            var tdRadioButton = document.createElement('td');
+
+            newRow.setAttribute('margin', 'auto');
+            newRow.setAttribute('display', 'block');
+
+            element.appendChild(newRow);
+            tdRadioButton.appendChild(radioInput);
+
+            tdTitle.innerHTML = eventsArray[i].eventTitle;
+            tdDesc.innerHTML = eventsArray[i].eventDescription;
+
+
+            newRow.appendChild(tdRadioButton);
+            newRow.appendChild(tdTitle);
+            newRow.appendChild(tdDesc);
+            element.appendChild(newRow);
+
+           // var labels = document.createElement("label");
+           // labels.setAttribute('for', eventsArray[i].eid);
+           // labels.setAttribute("class", "favoriteClass");
+            //labels.innerHTML = "Event ID: " + eventsArray[i].eid + ". Event Description: " + eventsArray[i].eventDescription;
+           // element.appendChild(radioInput);
+           // element.appendChild(labels);
+           
+           
         }
     }  
-}*/
+}
 
