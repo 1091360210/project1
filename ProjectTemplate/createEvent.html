@@ -22,21 +22,12 @@
 
 
 
-        function showPanel(panelId) {
-            for (var i = 0; i < contentPanels.length; i++) {
-                if (panelId == contentPanels[i]) {
-                    $("#" + contentPanels[i].css('visibility', 'visible'));
-                }
-                else {
-                    $("#" + contentPanels[i].css('visibility', 'hidden'));
-                }
-            }
-        }
-
-
         function crtEvent(title, description, eventDate, createDate, uid) {
             var webMethod = "ProjectServices.asmx/CreateEvent";
-            var parameters = "{\"title\":\"" + encodeURI(title) + "\",\"description\":\"" + encodeURI(description) +
+            /*var parameters = "{\"title\":\"" + encodeURI(title) + "\",\"description\":\"" + encodeURI(description) +
+                "\",\"eventDate\":\"" + encodeURI(eventDate) + "\",\"createDate\":\"" + encodeURI(createDate) +
+                "\",\"uid\":\"" + encodeURI(uid) + "\"}";*/
+            var parameters = "{\"title\":\"" + title + "\",\"description\":\"" + description +
                 "\",\"eventDate\":\"" + encodeURI(eventDate) + "\",\"createDate\":\"" + encodeURI(createDate) +
                 "\",\"uid\":\"" + encodeURI(uid) + "\"}";
             $.ajax({
@@ -48,8 +39,10 @@
                 success: function (msg) {
                     var responseFromServer = msg.d;
                     if (responseFromServer == true) {
+                        console.log(parameters);
                         alert("Event Created");
                         window.open("home.html", "_self");
+
                     }
                     else {
                         alert("Creation Failed.");

@@ -170,7 +170,7 @@ function displayAllEvents() {
 
         tdRadioButton.appendChild(radioInput);
 
-        tdTitle.innerHTML = eventsArray[i].eventTitle;
+        tdTitle.innerHTML = eventsArray[i].eventTitle + ":";
         tdDesc.innerHTML = eventsArray[i].eventDescription;
 
 
@@ -228,69 +228,85 @@ function getFavorites(){
 
 function displayFavorites() {
 
-    document.getElementById("dispFav").style.display = "block";
-    document.getElementById("deleteButton").style.display = "block";
+    var loaded = false;
     var element = document.getElementById("favoritList");
     var sessionUsername = getCookie('username');
     getUsers();
     getFavorites();
 
 
-    for (var i = 0; i < favoriteArray.length; i++) {
-        if (sessionUsername == favoriteArray[i].uName) {
-            let email;
-            let title;
-            let eid = favoriteArray[i].eid;
-            let uid = favoriteArray[i].contactInfo;
-            console.log(uid);
-            for (z = 0; z < usersArray.length; z++) {
-                if (uid == usersArray[z].uid) {
-                    email = usersArray[z].email;
+    if (document.getElementById("dispFav").style.display == "block") {
+        document.getElementById("dispFav").style.display = "none";
+        document.getElementById("deleteButton").style.display = "none";
+    }
+    else {
 
+        document.getElementById("dispFav").style.display = "block";
+        document.getElementById("deleteButton").style.display = "block";
+
+        
+        if (loaded == false) {
+
+            for (var i = 0; i < favoriteArray.length; i++) {
+                if (sessionUsername == favoriteArray[i].uName) {
+                    let email;
+                    let title;
+                    let eid = favoriteArray[i].eid;
+                    let uid = favoriteArray[i].contactInfo;
+                    console.log(uid);
+                    for (z = 0; z < usersArray.length; z++) {
+                        if (uid == usersArray[z].uid) {
+                            email = usersArray[z].email;
+
+                        }
+                    }
+
+                    for (var j = 0; j < eventsArray.length; j++) {
+                        if (eid == eventsArray[j].eid) {
+                            title = eventsArray[j].eventTitle;
+                        }
+                    }
+
+
+                    let newRow = document.createElement("tr");
+                    let tdTitle = document.createElement('td');
+                    let tdDesc = document.createElement('td');
+                    let tdRadioButton = document.createElement('td');
+
+                    newRow.setAttribute('margin', 'auto');
+                    newRow.setAttribute('display', 'block');
+
+                    var radioInput = document.createElement('input');
+                    radioInput.setAttribute('type', 'radio');
+                    radioInput.setAttribute('name', 'fList');
+                    radioInput.setAttribute('class', 'favoriteClass');
+                    radioInput.setAttribute("value", favoriteArray[i].eid);
+                    radioInput.setAttribute("id", favoriteArray[i].eid);
+
+                    tdRadioButton.appendChild(radioInput);
+
+                    tdTitle.innerHTML = title + ":";
+                    tdDesc.innerHTML = favoriteArray[i].eventDescription;
+
+
+                    newRow.appendChild(tdRadioButton);
+                    newRow.appendChild(tdTitle);
+                    newRow.appendChild(tdDesc);
+                    element.appendChild(newRow);
+
+                    loaded = true;
+
+                    /*var labels = document.createElement("label");
+                    labels.setAttribute('for', favoriteArray[i].eid);
+                    labels.setAttribute("class", "favoriteClass");
+                    labels.innerHTML = favoriteArray[i].eid + "." + favoriteArray[i].eventDescription + "." + favoriteArray[i].contactInfo + "." + email;
+                    var lineBreak = document.createElement("br");
+                    element.appendChild(radioInput);
+                    element.appendChild(labels);
+                    element.appendChild(lineBreak);*/
                 }
             }
-
-            for (var j = 0; j < eventsArray.length; j++) {
-                if (eid == eventsArray[j].eid) {
-                    title = eventsArray[j].eventTitle;
-                }
-            }
-
-
-            let  newRow = document.createElement("tr");
-            let tdTitle = document.createElement('td');
-            let  tdDesc = document.createElement('td');
-            let  tdRadioButton = document.createElement('td');
-
-            newRow.setAttribute('margin', 'auto');
-            newRow.setAttribute('display', 'block');
-
-            var radioInput = document.createElement('input');
-            radioInput.setAttribute('type', 'radio');
-            radioInput.setAttribute('name', 'fList');
-            radioInput.setAttribute('class', 'favoriteClass');
-            radioInput.setAttribute("value", favoriteArray[i].eid);
-            radioInput.setAttribute("id", favoriteArray[i].eid);
-
-            tdRadioButton.appendChild(radioInput);
-
-            tdTitle.innerHTML = title;
-            tdDesc.innerHTML = favoriteArray[i].eventDescription;
-
-
-            newRow.appendChild(tdRadioButton);
-            newRow.appendChild(tdTitle);
-            newRow.appendChild(tdDesc);
-            element.appendChild(newRow);
-
-            /*var labels = document.createElement("label");
-            labels.setAttribute('for', favoriteArray[i].eid);
-            labels.setAttribute("class", "favoriteClass");
-            labels.innerHTML = favoriteArray[i].eid + "." + favoriteArray[i].eventDescription + "." + favoriteArray[i].contactInfo + "." + email;
-            var lineBreak = document.createElement("br");
-            element.appendChild(radioInput);
-            element.appendChild(labels);
-            element.appendChild(lineBreak);*/
+     
         }
     }
 }
@@ -304,28 +320,30 @@ function deleteFaviorite() {
     var eid = $("input:radio[name=fList]:checked").val()
     var webMethod = "ProjectServices.asmx/Dfavorite";
     var parameters = "{\"eid\":\"" + encodeURI(eid) + "\",\"uName\":\"" + encodeURI(sessionUsername) + "\"}";
-    console.log(parameters)
-    $.ajax({
-        type: "POST",
-        url: webMethod,
-        data: parameters,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (msg) {
-           
-            alert("Favorite Removed!");
-            //remove all lables and radio button in favorite list div.
-            $('.favoriteClass').remove();
-            //refresh the page.
-            window.location.reload();
-            
 
-            
-        },
-        error: function (e) {
-            alert(e.type);
-        }
-    });
+    if (eid === undefined) {
+        alert("Choose an Event!");
+    }
+    else {
+        $.ajax({
+            type: "POST",
+            url: webMethod,
+            data: parameters,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (msg) {
+
+                alert("Favorite Removed!");
+                //remove all lables and radio button in favorite list div.
+                $('.favoriteClass').remove();
+                //refresh the page.
+                window.location.reload();
+            },
+            error: function (e) {
+                alert(e.type);
+            }
+        });
+    }
 }
 
 
@@ -335,36 +353,40 @@ function addFavorite() {
     var eid = $("input:radio[name=eList]:checked").val();
     var host;
     var eventDes;
-    for (var i = 0; i < eventsArray.length; i++) {
-        if (eid == eventsArray[i].eid) {
-            host = eventsArray[i].uid;
-            eventDes = eventsArray[i].eventDescription;
-        }
+    console.log(eid);
+
+    if (eid === undefined) {
+        alert("Choose an Event!");
     }
-    
-    var webMethod = "ProjectServices.asmx/Afavorite";
-    var parameters = "{\"eid\":\"" + encodeURI(eid) + "\",\"uName\":\"" + encodeURI(sessionUsername) +
-        "\",\"eventDescription\":\"" + encodeURI(eventDes) + "\",\"contact\":\"" + encodeURI(host) + "\"}";
-    
-    
-    $.ajax({
-        type: "POST",
-        url: webMethod,
-        data: parameters,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function () {
-            alert("Favorite Added!");
-            window.location.reload();
-        },
-        error: function (e) {
-            alert("failed to add favorite.")
+    else {
+        for (var i = 0; i < eventsArray.length; i++) {
+            if (eid == eventsArray[i].eid) {
+                host = eventsArray[i].uid;
+                eventDes = eventsArray[i].eventDescription;
+            }
         }
-    });
 
-    
+        var webMethod = "ProjectServices.asmx/Afavorite";
+        var parameters = "{\"eid\":\"" + encodeURI(eid) + "\",\"uName\":\"" + encodeURI(sessionUsername) +
+            "\",\"eventDescription\":\"" + eventDes + "\",\"contact\":\"" + encodeURI(host) + "\"}";
 
-    
+
+        $.ajax({
+            type: "POST",
+            url: webMethod,
+            data: parameters,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                alert("Favorite Added!");
+                window.location.reload();
+            },
+            error: function (e) {
+                alert("failed to add favorite.")
+            }
+        });
+
+    }
 
 }
 
